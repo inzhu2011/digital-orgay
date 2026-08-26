@@ -3,552 +3,1022 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Цифрлық Торғай</title>
-<!-- Leaflet — тегін интерактивті карта -->
+<title>Цифрлық Торғай | Торғайдың тарихи-мәдени мұрасы</title>
+<!-- Leaflet картасы -->
 <link
-       rel="stylesheet"
-       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
->
+rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
 <style>
-       * {
-           margin: 0;
-           padding: 0;
-           box-sizing: border-box;
-       }
-       html {
-           scroll-behavior: smooth;
-       }
-       body {
-           font-family: Georgia, "Times New Roman", serif;
-           background: #f5f1e8;
-           color: #302b25;
-       }
-
-       /* =========================
-          НАВИГАЦИЯ
-       ========================= */
-       nav {
-           position: fixed;
-           top: 0;
-           left: 0;
-           width: 100%;
-           z-index: 1000;
-           padding: 18px 7%;
-           display: flex;
-           justify-content: space-between;
-           align-items: center;
-           background: rgba(35, 32, 27, 0.94);
-       }
-       .logo {
-           color: #e0bd7b;
-           font-size: 23px;
-           font-weight: bold;
-       }
-       nav ul {
-           display: flex;
-           gap: 30px;
-           list-style: none;
-       }
-       nav a {
-           color: white;
-           text-decoration: none;
-           font-size: 15px;
-           transition: 0.3s;
-       }
-       nav a:hover {
-           color: #e0bd7b;
-       }
-
-       /* =========================
-          БАС БЕТ
-       ========================= */
-       .hero {
-           min-height: 100vh;
-           display: flex;
-           align-items: center;
-           justify-content: center;
-           text-align: center;
-           padding: 100px 20px 60px;
-           background:
-               linear-gradient(
-                   rgba(30, 27, 22, 0.58),
-                   rgba(30, 27, 22, 0.68)
-               ),
-               url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80")
-               center / cover;
-       }
-       .hero-content {
-           max-width: 850px;
-           color: white;
-       }
-       .hero h1 {
-           font-size: clamp(48px, 8vw, 82px);
-           margin-bottom: 20px;
-           letter-spacing: 2px;
-       }
-       .hero h2 {
-           font-size: clamp(22px, 4vw, 34px);
-           font-weight: normal;
-           color: #e0bd7b;
-           margin-bottom: 25px;
-       }
-       .hero p {
-           font-size: 20px;
-           line-height: 1.7;
-           margin-bottom: 35px;
-       }
-       .button {
-           display: inline-block;
-           padding: 15px 32px;
-           border: 1px solid #e0bd7b;
-           border-radius: 30px;
-           color: white;
-           text-decoration: none;
-           transition: 0.3s;
-       }
-       .button:hover {
-           background: #e0bd7b;
-           color: #302b25;
-       }
-
-       /* =========================
-          ЖАЛПЫ БӨЛІМДЕР
-       ========================= */
-       section {
-           padding: 90px 8%;
-       }
-       .section-title {
-           text-align: center;
-           margin-bottom: 50px;
-       }
-       .section-title h2 {
-           font-size: 40px;
-           margin-bottom: 15px;
-       }
-       .section-title p {
-           color: #746b60;
-           font-size: 17px;
-       }
-
-       /* =========================
-          ЖОБА ТУРАЛЫ
-       ========================= */
-       .about {
-           max-width: 900px;
-           margin: auto;
-           text-align: center;
-       }
-       .about p {
-           font-size: 19px;
-           line-height: 1.9;
-       }
-
-       /* =========================
-          ТАРИХИ ОРЫНДАР
-       ========================= */
-       .places {
-           background: #ebe4d7;
-       }
-       .cards {
-           max-width: 1100px;
-           margin: auto;
-           display: grid;
-           grid-template-columns:
-               repeat(auto-fit, minmax(230px, 1fr));
-           gap: 25px;
-       }
-       .card {
-           background: #fffdf8;
-           padding: 35px 25px;
-           border-radius: 15px;
-           text-align: center;
-           box-shadow:
-               0 8px 25px rgba(0,0,0,0.08);
-           transition: 0.3s;
-       }
-       .card:hover {
-           transform: translateY(-7px);
-       }
-       .card-icon {
-           font-size: 42px;
-           margin-bottom: 20px;
-       }
-       .card h3 {
-           font-size: 21px;
-           margin-bottom: 15px;
-       }
-       .card p {
-           color: #70675d;
-           line-height: 1.6;
-       }
-
-       /* =========================
-          КАРТА
-       ========================= */
-       .map-section {
-           text-align: center;
-       }
-       #map {
-           width: 100%;
-           max-width: 1100px;
-           height: 550px;
-           margin: 40px auto 0;
-           border-radius: 20px;
-           overflow: hidden;
-           box-shadow:
-               0 10px 30px rgba(0,0,0,0.15);
-       }
-       .leaflet-popup-content {
-           font-family:
-               Georgia,
-               "Times New Roman",
-               serif;
-           line-height: 1.5;
-       }
-       .leaflet-popup-content h3 {
-           margin-bottom: 8px;
-       }
-
-       /* =========================
-          ФУТЕР
-       ========================= */
-       footer {
-           background: #302b25;
-           color: white;
-           text-align: center;
-           padding: 35px 20px;
-       }
-       footer p {
-           margin: 7px;
-       }
-       .author {
-           color: #e0bd7b;
-       }
-
-       /* =========================
-          МОБИЛЬДІ НҰСҚА
-       ========================= */
-       @media (max-width: 700px) {
-           nav {
-               padding: 15px 20px;
-           }
-           nav ul {
-               display: none;
-           }
-           section {
-               padding: 70px 20px;
-           }
-           .hero p {
-               font-size: 17px;
-           }
-           #map {
-               height: 430px;
-           }
-       }
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+html {
+   scroll-behavior: smooth;
+}
+body {
+   font-family: Georgia, "Times New Roman", serif;
+   background: #f5f1e8;
+   color: #302b25;
+   line-height: 1.7;
+}
+nav {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   z-index: 1000;
+   padding: 16px 6%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   background: rgba(35,32,27,0.95);
+   backdrop-filter: blur(8px);
+}
+.logo {
+   color: #e0bd7b;
+   font-size: 23px;
+   font-weight: bold;
+}
+nav ul {
+   display: flex;
+   gap: 25px;
+   list-style: none;
+}
+nav a {
+   color: white;
+   text-decoration: none;
+   font-size: 14px;
+}
+nav a:hover {
+   color: #e0bd7b;
+}
+.hero {
+   min-height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   padding: 120px 20px 70px;
+   background:
+       linear-gradient(
+           rgba(30,27,22,0.65),
+           rgba(30,27,22,0.72)
+       ),
+       url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80")
+       center / cover;
+}
+.hero-content {
+   max-width: 900px;
+   color: white;
+}
+.hero h1 {
+   font-size: clamp(48px,8vw,82px);
+   margin-bottom: 15px;
+   letter-spacing: 2px;
+}
+.hero h2 {
+   color: #e0bd7b;
+   font-size: clamp(22px,4vw,34px);
+   font-weight: normal;
+   margin-bottom: 25px;
+}
+.hero p {
+   font-size: 20px;
+   margin-bottom: 35px;
+}
+.button {
+   display: inline-block;
+   padding: 14px 30px;
+   border: 1px solid #e0bd7b;
+   border-radius: 30px;
+   color: white;
+   text-decoration: none;
+   transition: .3s;
+}
+.button:hover {
+   background: #e0bd7b;
+   color: #302b25;
+}
+section {
+   padding: 90px 8%;
+}
+.section-title {
+   text-align: center;
+   margin-bottom: 45px;
+}
+.section-title h2 {
+   font-size: 40px;
+   margin-bottom: 12px;
+}
+.section-title p {
+   color: #746b60;
+}
+.container {
+   max-width: 1100px;
+   margin: auto;
+}
+.about-text {
+   max-width: 900px;
+   margin: auto;
+   font-size: 18px;
+}
+.highlight {
+   margin-top: 30px;
+   padding: 25px;
+   background: #ebe4d7;
+   border-left: 4px solid #b38a4a;
+   border-radius: 8px;
+}
+.research {
+   background: #ebe4d7;
+}
+.research-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+   gap: 20px;
+}
+.research-card {
+   background: #fffdf8;
+   padding: 28px;
+   border-radius: 14px;
+   box-shadow: 0 7px 20px rgba(0,0,0,.06);
+}
+.research-card h3 {
+   margin-bottom: 12px;
+}
+.places {
+   background: #f5f1e8;
+}
+.cards {
+   display: grid;
+   grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+   gap: 25px;
+}
+.card {
+   background: #fffdf8;
+   padding: 32px 25px;
+   border-radius: 16px;
+   box-shadow: 0 8px 25px rgba(0,0,0,.08);
+   transition: .3s;
+}
+.card:hover {
+   transform: translateY(-6px);
+}
+.card-icon {
+   font-size: 42px;
+   margin-bottom: 15px;
+}
+.card h3 {
+   font-size: 22px;
+   margin-bottom: 12px;
+}
+.card p {
+   color: #70675d;
+}
+.card-button {
+   display: inline-block;
+   margin-top: 18px;
+   color: #8b672e;
+   text-decoration: none;
+   font-weight: bold;
+}
+.history {
+   background: #ebe4d7;
+}
+.timeline {
+   max-width: 850px;
+   margin: auto;
+}
+.timeline-item {
+   background: #fffdf8;
+   margin-bottom: 20px;
+   padding: 25px;
+   border-radius: 12px;
+}
+.timeline-year {
+   color: #a27a37;
+   font-size: 24px;
+   font-weight: bold;
+}
+.map-section {
+   background: #f5f1e8;
+}
+#map {
+   width: 100%;
+   height: 500px;
+   border-radius: 18px;
+   box-shadow: 0 8px 25px rgba(0,0,0,.12);
+}
+.museum {
+   padding-top: 100px;
+}
+.museum:nth-child(even) {
+   background: #ebe4d7;
+}
+.museum-content {
+   max-width: 1050px;
+   margin: auto;
+}
+.museum-title {
+   text-align: center;
+   margin-bottom: 35px;
+}
+.museum-title h2 {
+   font-size: 38px;
+}
+.museum-title p {
+   color: #8b672e;
+}
+.info-box {
+   background: #fffdf8;
+   padding: 30px;
+   margin-bottom: 25px;
+   border-radius: 14px;
+   box-shadow: 0 5px 18px rgba(0,0,0,.06);
+}
+.info-box h3 {
+   margin-bottom: 15px;
+   color: #58462f;
+}
+.exhibits {
+   display: grid;
+   grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+   gap: 20px;
+}
+.exhibit {
+   background: #fffdf8;
+   border-radius: 14px;
+   overflow: hidden;
+   box-shadow: 0 5px 18px rgba(0,0,0,.07);
+}
+.photo-placeholder {
+   height: 190px;
+   background: #d9d0c0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   color: #746b60;
+   text-align: center;
+   padding: 20px;
+}
+.exhibit-text {
+   padding: 20px;
+}
+.gallery {
+   display: grid;
+   grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+   gap: 20px;
+}
+.gallery-item {
+   height: 220px;
+   background: #d9d0c0;
+   border-radius: 14px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   color: #70675d;
+   padding: 20px;
+}
+.sources {
+   background: #ebe4d7;
+}
+.sources ul {
+   max-width: 800px;
+   margin: auto;
+}
+.sources li {
+   margin-bottom: 12px;
+}
+.sources a {
+   color: #765728;
+}
+footer {
+   background: #302b25;
+   color: white;
+   text-align: center;
+   padding: 40px 20px;
+}
+.author {
+   color: #e0bd7b;
+   margin-top: 10px;
+}
+@media(max-width:700px) {
+   nav {
+       padding: 14px 18px;
+   }
+   nav ul {
+       display: none;
+   }
+   section {
+       padding: 65px 20px;
+   }
+   .hero p {
+       font-size: 17px;
+   }
+   #map {
+       height: 380px;
+   }
+}
 </style>
 </head>
-
 <body>
-
-<!-- =========================
-    НАВИГАЦИЯ
-========================= -->
 <nav>
 <div class="logo">
-       Цифрлық Торғай
+Цифрлық Торғай
 </div>
 <ul>
-<li>
-<a href="#about">
-               Жоба туралы
-</a>
-</li>
-<li>
-<a href="#places">
-               Тарихи орындар
-</a>
-</li>
-<li>
-<a href="#map-section">
-               Карта
-</a>
-</li>
+<li><a href="#about">Жоба</a></li>
+<li><a href="#history">Тарих</a></li>
+<li><a href="#museums">Музейлер</a></li>
+<li><a href="#map-section">Карта</a></li>
+<li><a href="#sources">Дереккөздер</a></li>
 </ul>
 </nav>
 
-<!-- =========================
-    БАС БЕТ
-========================= -->
+<!-- БАСТЫ БЕТ -->
 <header class="hero">
 <div class="hero-content">
-<h1>
-           Цифрлық Торғай
-</h1>
-<h2>
-           Тарихты таны. Мұраны сақта.
-</h2>
+<h1>Цифрлық Торғай</h1>
+<h2>Тарихты таны. Мұраны сақта.</h2>
 <p>
-           Торғай өңірінің тарихи-мәдени мұрасын
-           цифрлық кеңістікте таныстыратын
-           интерактивті жоба.
+Торғай өңірінің тарихи-мәдени мұрасын
+цифрлық кеңістікте таныстыратын
+зерттеу жобасы.
 </p>
-<a
-           href="#places"
-           class="button"
->
-           Зерттеуді бастау
+<a href="#about" class="button">
+Зерттеуді бастау
 </a>
 </div>
 </header>
 
-<!-- =========================
-    ЖОБА ТУРАЛЫ
-========================= -->
+<!-- ЖОБА -->
 <section id="about">
 <div class="section-title">
-<h2>
-           Жоба туралы
-</h2>
+<h2>Жоба туралы</h2>
+<p>Торғай мұрасын жаңа форматта зерттеу</p>
+</div>
+<div class="about-text">
 <p>
-           Торғай тарихын жаңа форматта таныту
+«Цифрлық Торғай» — Торғай өңірінің тарихи-мәдени
+мұрасын цифрлық форматта зерттеу, жүйелеу және
+көпшілікке қолжетімді ету мақсатында жасалған жоба.
+</p>
+<p>
+Торғай — қазақ тарихында ағартушылық, әдебиет,
+ұлттық қозғалыс және қоғамдық-саяси өмірмен тығыз
+байланысты тарихи өлке.
+</p>
+<div class="highlight">
+<strong>Жобаның негізгі мақсаты:</strong>
+<p>
+Торғайдың тарихи орындары, музейлері, тұлғалары
+мен жәдігерлері туралы ақпаратты бір цифрлық
+кеңістікте жинақтап, тарихи мұраны қазіргі
+ұрпаққа қолжетімді түрде таныстыру.
 </p>
 </div>
-
-<div class="about">
-<p>
-           «Цифрлық Торғай» — Торғай өңірінің
-           тарихи және мәдени мұрасын заманауи
-           цифрлық технологиялар арқылы
-           таныстыруға бағытталған жоба.
-</p>
-<br>
-<p>
-           Жоба барысында тарихи орындар,
-           музейлер, көрнекті тұлғалар және
-           олардың мұрасы бір цифрлық
-           кеңістікте жинақталады.
-</p>
 </div>
 </section>
 
-<!-- =========================
-    ТАРИХИ ОРЫНДАР
-========================= -->
-<section
-   id="places"
-   class="places"
->
+<!-- ЗЕРТТЕУ -->
+<section class="research">
 <div class="section-title">
-<h2>
-           Тарихи орындар
-</h2>
+<h2>Зерттеу бағыты</h2>
+<p>Жобаның негізгі міндеттері</p>
+</div>
+<div class="container research-grid">
+<div class="research-card">
+<h3>🎯 Мақсаты</h3>
 <p>
-           Торғайдың тарихи мұрасымен танысыңыз
+Торғай өңірінің тарихи-мәдени мұрасын зерттеп,
+оны заманауи цифрлық форматта таныстыру.
 </p>
 </div>
+<div class="research-card">
+<h3>🔎 Зерттеу</h3>
+<p>
+Музейлердің тарихы, экспозициялары, тарихи тұлғалар
+және жәдігерлер туралы мәліметтерді жинақтау.
+</p>
+</div>
+<div class="research-card">
+<h3>💻 Цифрландыру</h3>
+<p>
+Тарихи ақпаратты карта, мәтін, фотосурет және
+интерактивті элементтер арқылы ұсыну.
+</p>
+</div>
+<div class="research-card">
+<h3>🌱 Маңызы</h3>
+<p>
+Жас ұрпақтың туған өлке тарихына қызығушылығын
+арттыру және тарихи мұраны насихаттау.
+</p>
+</div>
+</div>
+</section>
 
-<div class="cards">
+<!-- ТОРҒАЙ ТАРИХЫ -->
+<section id="history" class="history">
+<div class="section-title">
+<h2>Торғай тарихы</h2>
+<p>Тарихи-мәдени кеңістік</p>
+</div>
+<div class="timeline">
+<div class="timeline-item">
+<div class="timeline-year">1864</div>
+<p>
+Ыбырай Алтынсарин Торғайда қазақ балаларына
+арналған алғашқы мектепті ашты. Бұл оқиға
+қазақ даласындағы ағартушылық тарихындағы
+маңызды кезеңдердің бірі болды.
+</p>
+</div>
+<div class="timeline-item">
+<div class="timeline-year">ХІХ–ХХ ғасырлар</div>
+<p>
+Торғай өңірінде ағартушылық, әдебиет,
+қоғамдық ой және ұлттық қозғалыс өкілдерінің
+қызметі қалыптасты.
+</p>
+</div>
+<div class="timeline-item">
+<div class="timeline-year">ХХ ғасыр</div>
+<p>
+Торғай тарихында Әліби Жангелдин,
+Ахмет Байтұрсынұлы, Міржақып Дулатұлы
+және басқа да тарихи тұлғалардың есімімен
+байланысты маңызды оқиғалар бар.
+</p>
+</div>
+<div class="timeline-item">
+<div class="timeline-year">2002 жылдан бері</div>
+<p>
+Торғайдың Жангелдин мұражайлар кешені
+төрт музейдің жұмысын біріктіріп,
+ғылыми-зерттеу, мәдени-ағартушылық және
+насихаттау жұмыстарын жүргізіп келеді.
+</p>
+</div>
+</div>
+</section>
+
+<!-- МУЗЕЙЛЕР -->
+<section id="museums">
+<div class="section-title">
+<h2>Торғай музейлері</h2>
+<p>
+Торғайдың тарихи мұрасын сақтайтын төрт музей
+</p>
+</div>
+<div class="container cards">
+<div class="card">
+<div class="card-icon">🏹</div>
+<h3>Шақшақ Жәнібек тарихи музейі</h3>
+<p>
+XVIII ғасырдағы батыр, би және мәмілегер
+Шақшақ Жәнібекке арналған музей.
+</p>
+<a class="card-button" href="#zhanibek">
+Толығырақ →
+</a>
+</div>
+
+<div class="card">
+<div class="card-icon">📚</div>
+<h3>
+Ахмет Байтұрсынұлы мен
+Міржақып Дулатұлының әдеби музейі
+</h3>
+<p>
+Алаш арыстарының өмірі, шығармашылығы
+және тарихи мұрасына арналған музей.
+</p>
+<a class="card-button" href="#alash">
+Толығырақ →
+</a>
+</div>
+
+<div class="card">
+<div class="card-icon">📖</div>
+<h3>
+Ыбырай Алтынсариннің
+мемориалды-педагогикалық музейі
+</h3>
+<p>
+Ұлы ағартушының өмірі мен педагогикалық
+мұрасына арналған музей.
+</p>
+<a class="card-button" href="#ybyrai">
+Толығырақ →
+</a>
+</div>
+
+<div class="card">
+<div class="card-icon">🏺</div>
+<h3>
+Әліби Жангелдин
+тарихи-мемориалды музейі
+</h3>
+<p>
+Саяхатшы және қоғам қайраткері
+Әліби Жангелдиннің өмірі мен қызметіне
+арналған музей.
+</p>
+<a class="card-button" href="#zhangeldin">
+Толығырақ →
+</a>
+</div>
+</div>
+</section>
+
+<!-- КАРТА -->
+<section id="map-section" class="map-section">
+<div class="section-title">
+<h2>Интерактивті карта</h2>
+<p>
+Торғайдағы тарихи музейлерді картадан зерттеңіз
+</p>
+</div>
+<div class="container">
+<div id="map"></div>
+</div>
+</section>
 
 <!-- ЖӘНІБЕК -->
-<div class="card">
-<div class="card-icon">
-               🏛️
+<section id="zhanibek" class="museum">
+<div class="museum-content">
+<div class="museum-title">
+<h2>Шақшақ Жәнібек тарихи музейі</h2>
+<p>Тархан Шақшақ Жәнібек мұрасы</p>
 </div>
-<h3>
-               Шақшақ Жәнібек музейі
-</h3>
+
+<div class="info-box">
+<h3>Музей туралы</h3>
 <p>
-               Торғай тарихындағы маңызды тұлғаға
-               арналған музей.
+Шақшақ Жәнібек тарихи музейі Торғай өңірінің
+тарихы мен XVIII ғасырдағы батыр, би,
+мәмілегер Шақшақ Жәнібектің өмірі мен қызметін
+таныстырады.
+</p>
+<p>
+Музей 1993 жылы ашылған. Оның құрылуы
+Торғайдың тарихи тұлғаларын кейінгі ұрпаққа
+танытуға бағытталған мәдени-ағартушылық
+жұмыстардың маңызды бөлігіне айналды.
 </p>
 </div>
 
-<!-- АХМЕТ + МІРЖАҚЫП -->
-<div class="card">
-<div class="card-icon">
-               📚
-</div>
-<h3>
-               Ахмет Байтұрсынұлы және
-               Міржақып Дулатұлы музейі
-</h3>
+<div class="info-box">
+<h3>Шақшақ Жәнібек туралы</h3>
 <p>
-               Қазақтың көрнекті зиялыларының
-               өмірі, шығармашылығы және
-               тарихи мұрасы.
+Шақшақ Жәнібек — қазақ тарихында батыр,
+би және мәмілегер ретінде белгілі тұлға.
+Музей экспозициясында оның өмірі мен
+тарихи қызметіне байланысты материалдар
+ұсынылады.
 </p>
 </div>
+
+<div class="info-box">
+<h3>Ерекше жәдігерлер</h3>
+<p>
+Музейде Шақшақ Жәнібекке және Торғай
+өңірінің тарихына қатысты құнды тарихи
+материалдар мен жәдігерлер сақталған.
+Әр жәдігер белгілі бір тарихи кезең мен
+халықтың тұрмыс-тіршілігін танытады.
+</p>
+</div>
+
+<h3 style="margin-bottom:20px;">📸 Фотогалерея</h3>
+<div class="gallery">
+<div class="gallery-item">
+Бұл жерге Шақшақ Жәнібек музейінің
+фотосын орналастырыңыз
+</div>
+<div class="gallery-item">
+Бұл жерге жәдігердің фотосын орналастырыңыз
+</div>
+<div class="gallery-item">
+Бұл жерге экспозиция фотосын орналастырыңыз
+</div>
+</div>
+</div>
+</section>
+
+<!-- АЛАШ -->
+<section id="alash" class="museum">
+<div class="museum-content">
+<div class="museum-title">
+<h2>
+Ахмет Байтұрсынұлы мен
+Міржақып Дулатұлының әдеби музейі
+</h2>
+<p>Алаш мұрасы</p>
+</div>
+
+<div class="info-box">
+<h3>Музей тарихы</h3>
+<p>
+Музей 1991 жылы ашылған. Оның экспозициясы
+Ахмет Байтұрсынұлы мен Міржақып Дулатұлының
+өмірі мен шығармашылығын, сондай-ақ
+Алаш қозғалысы тарихын таныстыруға арналған.
+</p>
+<p>
+2022 жылы Ахмет Байтұрсынұлының 150 жылдығына
+орай музей экспозициясы жаңартылып,
+жаңа мазмұнда көрерменге ұсынылды.
+</p>
+</div>
+
+<div class="info-box">
+<h3>Ахмет Байтұрсынұлы</h3>
+<p>
+Ахмет Байтұрсынұлы — ағартушы, ғалым,
+ақын, қоғам қайраткері және қазақ тіл
+білімі мен ұлттық жазу тарихында ерекше
+орын алатын тұлға.
+</p>
+<p>
+Оның Торғай өңірімен байланысы музей
+экспозициясында өмірбаяндық материалдар,
+еңбектер мен жеке заттар арқылы көрсетіледі.
+</p>
+</div>
+
+<div class="info-box">
+<h3>Міржақып Дулатұлы</h3>
+<p>
+Міржақып Дулатұлы — ақын, жазушы,
+публицист және Алаш қозғалысының
+көрнекті қайраткері.
+</p>
+<p>
+Музейде оның өмірі мен шығармашылығына
+қатысты құжаттар, кітаптар, фотосуреттер
+және жеке заттар сақталған.
+</p>
+</div>
+
+<div class="info-box">
+<h3>Музей экспозициясы</h3>
+<p>
+Музейде Ахмет Байтұрсынұлына,
+Міржақып Дулатұлына, Алашордаға,
+олардың ізбасарларына, ғалымдар мен
+ақын-жазушыларға арналған материалдар
+ұсынылған.
+</p>
+</div>
+
+<h3 style="margin-bottom:20px;">📸 Фотогалерея</h3>
+<div class="gallery">
+<div class="gallery-item">
+Ахмет Байтұрсынұлы музейінің фотосы
+</div>
+<div class="gallery-item">
+Міржақып Дулатұлына қатысты жәдігер
+</div>
+<div class="gallery-item">
+Музей экспозициясы
+</div>
+<div class="gallery-item">
+Құжат немесе кітап
+</div>
+</div>
+</div>
+</section>
 
 <!-- ЫБЫРАЙ -->
-<div class="card">
-<div class="card-icon">
-               📖
-</div>
-<h3>
-               Ыбырай Алтынсарин музейі
-</h3>
-<p>
-               Ұлы ағартушының өмірі мен
-               педагогикалық мұрасына арналған музей.
-</p>
-</div>
-
-<!-- ӘЛІБИ -->
-<div class="card">
-<div class="card-icon">
-               🏺
-</div>
-<h3>
-               Әліби Жангелдин музейі
-</h3>
-<p>
-               Әліби Жангелдиннің өмірі мен
-               тарихи қызметіне арналған музей.
-</p>
-</div>
-
-</div>
-</section>
-
-<!-- =========================
-    КАРТА
-========================= -->
-<section
-   id="map-section"
-   class="map-section"
->
-<div class="section-title">
+<section id="ybyrai" class="museum">
+<div class="museum-content">
+<div class="museum-title">
 <h2>
-           Интерактивті карта
+Ыбырай Алтынсариннің
+мемориалды-педагогикалық музейі
 </h2>
+<p>Ағартушылық пен білім тарихы</p>
+</div>
+
+<div class="info-box">
+<h3>Музей туралы</h3>
 <p>
-           Торғайдың тарихи орындарын картадан зерттеңіз
+Ыбырай Алтынсарин мемориалды-педагогикалық
+музейі ұлы ағартушының өмірі,
+педагогикалық қызметі және қазақ даласындағы
+білім беру тарихымен таныстырады.
+</p>
+<p>
+Музей 1988 жылы ашылған.
 </p>
 </div>
 
-<div id="map"></div>
-</section>
-
-<!-- =========================
-    ФУТЕР
-========================= -->
-<footer>
+<div class="info-box">
+<h3>Торғайдағы алғашқы мектеп</h3>
 <p>
-<strong>
-           Цифрлық Торғай
-</strong>
+Ыбырай Алтынсарин қазақ балаларының
+білім алуына ерекше көңіл бөлген ағартушы.
+1864 жылы Торғайда қазақ балаларына
+арналған мектептің ашылуы оның
+ағартушылық қызметіндегі маңызды
+оқиғалардың бірі болды.
 </p>
 <p>
-       Торғай өңірінің тарихи-мәдени мұрасы
+Бұл мектеп қазақ даласындағы жаңа
+білім беру жүйесінің қалыптасуына
+үлкен ықпал етті.
+</p>
+</div>
+
+<div class="info-box">
+<h3>Ыбырай Алтынсариннің мұрасы</h3>
+<p>
+Ыбырай Алтынсариннің мұрасы қазақ
+ағартушылығының, педагогикасының және
+әдебиетінің дамуымен тығыз байланысты.
+Музейде оның өмірі мен қызметін
+таныстыратын тарихи материалдар мен
+жәдігерлер жинақталған.
+</p>
+</div>
+
+<h3 style="margin-bottom:20px;">📸 Фотогалерея</h3>
+<div class="gallery">
+<div class="gallery-item">
+Ыбырай Алтынсарин музейінің фотосы
+</div>
+<div class="gallery-item">
+Алғашқы мектепке қатысты материал
+</div>
+<div class="gallery-item">
+Музей экспозициясы
+</div>
+<div class="gallery-item">
+Тарихи жәдігер
+</div>
+</div>
+</div>
+</section>
+
+<!-- ЖАНГЕЛДИН -->
+<section id="zhangeldin" class="museum">
+<div class="museum-content">
+<div class="museum-title">
+<h2>
+Әліби Жангелдин тарихи-мемориалды музейі
+</h2>
+<p>Торғай тарихы мен Әліби Жангелдин мұрасы</p>
+</div>
+
+<div class="info-box">
+<h3>Музей туралы</h3>
+<p>
+Әліби Жангелдин тарихи-мемориалды музейі
+1984 жылы ашылған.
+</p>
+<p>
+Музей экспозициясы Әліби Жангелдиннің
+өмірі мен қызметін ғана емес, Торғай
+өңірінің әр кезеңдегі тарихи дамуын
+да қамтиды.
+</p>
+</div>
+
+<div class="info-box">
+<h3>Экспозиция бөлімдері</h3>
+<p>
+Музейде «1910–1912 жылдардағы жол саяхаты»,
+«Балалық шағы», «Этнографиялық бөлім»,
+«1916 жылғы Ұлт-азаттық көтеріліс»,
+«Қызыл керуен», «Майдан мен тылды ұштастыру»
+және «Кешегі және бүгінгі түлеген Торғай»
+сияқты бөлімдер бар.
+</p>
+</div>
+
+<div class="info-box">
+<h3>Жәдігерлер</h3>
+<p>
+Музей қорында 1916 жылғы көтеріліске
+қатысты қару-жарақтар, XIX ғасырдағы
+қазақ халқының тұрмысында қолданылған
+заттар, ұлттық киімдер, еңбек құралдары,
+сондай-ақ Екінші дүниежүзілік соғыс
+кезеңіне қатысты медальдар, ордендер,
+фотосуреттер мен тұрмыстық заттар бар.
+</p>
+</div>
+
+<h3 style="margin-bottom:20px;">📸 Фотогалерея</h3>
+<div class="gallery">
+<div class="gallery-item">
+Әліби Жангелдин музейінің фотосы
+</div>
+<div class="gallery-item">
+«Қызыл керуен» экспозициясы
+</div>
+<div class="gallery-item">
+Этнография залындағы жәдігер
+</div>
+<div class="gallery-item">
+Тарихи құжат немесе зат
+</div>
+</div>
+</div>
+</section>
+
+<!-- ЖӘДІГЕРЛЕР -->
+<section>
+<div class="section-title">
+<h2>Жәдігерлер сөйлейді</h2>
+<p>
+Тарихты заттар арқылы таныңыз
+</p>
+</div>
+<div class="container">
+<div class="info-box">
+<p>
+Музей жәдігері — өткен дәуірден сақталған
+зат қана емес. Оның артында белгілі бір
+адамның өмірі, тарихи оқиға, тұрмыс
+ерекшелігі немесе мәдени дәстүр туралы
+ақпарат болуы мүмкін.
+</p>
+<p>
+Бұл бөлімде Торғай музейлеріндегі
+ерекше жәдігерлердің тарихын жеке-жеке
+таныстыруға болады.
+</p>
+</div>
+<div class="exhibits">
+<div class="exhibit">
+<div class="photo-placeholder">
+Жәдігер фотосы
+</div>
+<div class="exhibit-text">
+<h3>Жәдігер №1</h3>
+<p>
+Бұл жерге жәдігердің атауы мен
+тарихы жазылады.
+</p>
+</div>
+</div>
+
+<div class="exhibit">
+<div class="photo-placeholder">
+Жәдігер фотосы
+</div>
+<div class="exhibit-text">
+<h3>Жәдігер №2</h3>
+<p>
+Бұл жерге жәдігердің шығу тарихы
+және тарихи маңызы жазылады.
+</p>
+</div>
+</div>
+
+<div class="exhibit">
+<div class="photo-placeholder">
+Жәдігер фотосы
+</div>
+<div class="exhibit-text">
+<h3>Жәдігер №3</h3>
+<p>
+Бұл бөлім кейін сіздің жеке
+фотоматериалдарыңызбен толықтырылады.
+</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ДЕРЕККӨЗДЕР -->
+<section id="sources" class="sources">
+<div class="section-title">
+<h2>Дереккөздер</h2>
+<p>Жобада пайдаланылған негізгі ақпарат көздері</p>
+</div>
+<div class="container">
+<ul>
+<li>
+<a href="https://muzei-torgai.kz/" target="_blank">
+Торғайдың Жангелдин мұражайлар кешенінің
+ресми сайты
+</a>
+</li>
+<li>
+<a href="https://muzei-torgai.kz/m-razhaj-turaly/keshen-turaly-a-parat.html"
+target="_blank">
+Кешен туралы ақпарат
+</a>
+</li>
+<li>
+Музей экспозицияларындағы ақпараттық
+материалдар
+</li>
+<li>
+Музей қорындағы жәдігерлер туралы
+мәліметтер
+</li>
+<li>
+Жеке бақылаулар мен зерттеу барысында
+түсірілген фотоматериалдар
+</li>
+</ul>
+</div>
+</section>
+
+<!-- ҚОРЫТЫНДЫ -->
+<section>
+<div class="section-title">
+<h2>Қорытынды</h2>
+</div>
+<div class="about-text">
+<p>
+Торғайдың тарихи-мәдени мұрасы — қазақ
+халқының тарихындағы маңызды рухани
+құндылықтардың бірі.
+</p>
+<p>
+Музейлерде сақталған құжаттар, кітаптар,
+фотосуреттер, тұрмыстық заттар және басқа
+да жәдігерлер өткен тарихты көзбен көріп,
+тереңірек түсінуге мүмкіндік береді.
+</p>
+<p>
+«Цифрлық Торғай» жобасының мақсаты —
+осы мұраны заманауи цифрлық кеңістікке
+шығарып, оны кез келген адамға қолжетімді
+ету.
+</p>
+</div>
+</section>
+
+<footer>
+<p><strong>Цифрлық Торғай</strong></p>
+<p>
+Торғайдың тарихи-мәдени мұрасын
+цифрлық кеңістікте сақтау және таныту
 </p>
 <p class="author">
-       Авторлық цифрлық жоба • 2026
+© 2026 • Цифрлық жоба
 </p>
 </footer>
 
-<!-- =========================
-    LEAFLET
-========================= -->
-<script
-   src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
-
+<!-- LEAFLET -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-   /*
-       Торғай картасы
-   */
-   const map = L.map('map').setView(
-       [49.6335, 63.4895],
-       15
-   );
+const map = L.map('map').setView([49.634, 63.489], 14);
+L.tileLayer(
+   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+   {
+       maxZoom: 19,
+       attribution: '&copy; OpenStreetMap contributors'
+   }
+).addTo(map);
 
-   /*
-       OpenStreetMap картасы
-   */
-   L.tileLayer(
-       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-       {
-           attribution:
-               '&copy; OpenStreetMap contributors'
-       }
-   ).addTo(map);
+/* Музейлердің бастапқы нүктелері */
+const museums = [
+   {
+       name: "Шақшақ Жәнібек тарихи музейі",
+       lat: 49.6340,
+       lng: 63.4897
+   },
+   {
+       name: "Ахмет Байтұрсынұлы мен Міржақып Дулатұлының әдеби музейі",
+       lat: 49.6340,
+       lng: 63.4897
+   },
+   {
+       name: "Ыбырай Алтынсарин мемориалды-педагогикалық музейі",
+       lat: 49.6339,
+       lng: 63.4874
+   },
+   {
+       name: "Әліби Жангелдин тарихи-мемориалды музейі",
+       lat: 49.6340,
+       lng: 63.4897
+   }
+];
 
-   /*
-       1. ШАҚШАҚ ЖӘНІБЕК
-   */
-   L.marker([
-       49.633999,
-       63.489694
-   ])
-   .addTo(map)
-   .bindPopup(`
-<h3>
-           Шақшақ Жәнібек музейі
-</h3>
-<p>
-           Торғай өңірінің тарихи мұрасын
-           таныстыратын музей.
-</p>
-   `);
-
-   /*
-       2. АХМЕТ + МІРЖАҚЫП
-   */
-   L.marker([
-       49.632444,
-       63.489503
-   ])
-   .addTo(map)
-   .bindPopup(`
-<h3>
-           Ахмет Байтұрсынұлы және
-           Міржақып Дулатұлы музейі
-</h3>
-<p>
-           Қазақтың көрнекті зиялыларының
-           өмірі мен мұрасына арналған
-           әдеби музей.
-</p>
-   `);
-
-   /*
-       3. ЫБЫРАЙ АЛТЫНСАРИН
-   */
-   L.marker([
-       49.633861,
-       63.487444
-   ])
-   .addTo(map)
-   .bindPopup(`
-<h3>
-           Ыбырай Алтынсарин музейі
-</h3>
-<p>
-           Ұлы ағартушының өмірі мен
-           педагогикалық мұрасына арналған музей.
-</p>
-   `);
-
-   /*
-       4. ӘЛІБИ ЖАНГЕЛДИН
-   */
-   L.marker([
-       49.634389,
-       63.490056
-   ])
-   .addTo(map)
-   .bindPopup(`
-<h3>
-           Әліби Жангелдин музейі
-</h3>
-<p>
-           Әліби Жангелдиннің өмірі мен
-           тарихи қызметіне арналған
-           тарихи-мемориалдық музей.
-</p>
-   `);
+museums.forEach(function(museum) {
+   L.marker([museum.lat, museum.lng])
+       .addTo(map)
+       .bindPopup(
+           "<strong>" +
+           museum.name +
+           "</strong><br><br>" +
+           "Торғай тарихи мұрасы"
+       );
+});
 </script>
-
 </body>
 </html>
 доступно контекстное меню
