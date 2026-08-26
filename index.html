@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Цифрлық Торғай</title>
+<!-- Leaflet — тегін интерактивті карта -->
+<link
+       rel="stylesheet"
+       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+>
 <style>
        * {
            margin: 0;
@@ -18,7 +23,10 @@
            background: #f5f1e8;
            color: #302b25;
        }
-       /* NAVIGATION */
+
+       /* =========================
+          НАВИГАЦИЯ
+       ========================= */
        nav {
            position: fixed;
            top: 0;
@@ -29,7 +37,7 @@
            display: flex;
            justify-content: space-between;
            align-items: center;
-           background: rgba(35, 32, 27, 0.92);
+           background: rgba(35, 32, 27, 0.94);
        }
        .logo {
            color: #e0bd7b;
@@ -45,11 +53,15 @@
            color: white;
            text-decoration: none;
            font-size: 15px;
+           transition: 0.3s;
        }
        nav a:hover {
            color: #e0bd7b;
        }
-       /* HERO */
+
+       /* =========================
+          БАС БЕТ
+       ========================= */
        .hero {
            min-height: 100vh;
            display: flex;
@@ -60,7 +72,7 @@
            background:
                linear-gradient(
                    rgba(30, 27, 22, 0.58),
-                   rgba(30, 27, 22, 0.65)
+                   rgba(30, 27, 22, 0.68)
                ),
                url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80")
                center / cover;
@@ -98,7 +110,10 @@
            background: #e0bd7b;
            color: #302b25;
        }
-       /* GENERAL */
+
+       /* =========================
+          ЖАЛПЫ БӨЛІМДЕР
+       ========================= */
        section {
            padding: 90px 8%;
        }
@@ -114,7 +129,10 @@
            color: #746b60;
            font-size: 17px;
        }
-       /* ABOUT */
+
+       /* =========================
+          ЖОБА ТУРАЛЫ
+       ========================= */
        .about {
            max-width: 900px;
            margin: auto;
@@ -124,7 +142,10 @@
            font-size: 19px;
            line-height: 1.9;
        }
-       /* PLACES */
+
+       /* =========================
+          ТАРИХИ ОРЫНДАР
+       ========================= */
        .places {
            background: #ebe4d7;
        }
@@ -132,7 +153,8 @@
            max-width: 1100px;
            margin: auto;
            display: grid;
-           grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+           grid-template-columns:
+               repeat(auto-fit, minmax(230px, 1fr));
            gap: 25px;
        }
        .card {
@@ -140,8 +162,9 @@
            padding: 35px 25px;
            border-radius: 15px;
            text-align: center;
-           box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-           transition: transform 0.3s;
+           box-shadow:
+               0 8px 25px rgba(0,0,0,0.08);
+           transition: 0.3s;
        }
        .card:hover {
            transform: translateY(-7px);
@@ -158,29 +181,37 @@
            color: #70675d;
            line-height: 1.6;
        }
-       /* MAP */
+
+       /* =========================
+          КАРТА
+       ========================= */
        .map-section {
            text-align: center;
        }
-       .map-box {
-           max-width: 1000px;
-           height: 430px;
+       #map {
+           width: 100%;
+           max-width: 1100px;
+           height: 550px;
            margin: 40px auto 0;
            border-radius: 20px;
-           background: #d9d0c0;
-           display: flex;
-           justify-content: center;
-           align-items: center;
-           flex-direction: column;
+           overflow: hidden;
+           box-shadow:
+               0 10px 30px rgba(0,0,0,0.15);
        }
-       .map-box span {
-           font-size: 65px;
-           margin-bottom: 15px;
+       .leaflet-popup-content {
+           font-family:
+               Georgia,
+               "Times New Roman",
+               serif;
+           line-height: 1.5;
        }
-       .map-box p {
-           font-size: 20px;
+       .leaflet-popup-content h3 {
+           margin-bottom: 8px;
        }
-       /* FOOTER */
+
+       /* =========================
+          ФУТЕР
+       ========================= */
        footer {
            background: #302b25;
            color: white;
@@ -193,7 +224,10 @@
        .author {
            color: #e0bd7b;
        }
-       /* MOBILE */
+
+       /* =========================
+          МОБИЛЬДІ НҰСҚА
+       ========================= */
        @media (max-width: 700px) {
            nav {
                padding: 15px 20px;
@@ -207,62 +241,107 @@
            .hero p {
                font-size: 17px;
            }
+           #map {
+               height: 430px;
+           }
        }
 </style>
 </head>
+
 <body>
-<!-- NAVIGATION -->
+
+<!-- =========================
+    НАВИГАЦИЯ
+========================= -->
 <nav>
 <div class="logo">
        Цифрлық Торғай
 </div>
 <ul>
-<li><a href="#about">Жоба туралы</a></li>
-<li><a href="#places">Тарихи орындар</a></li>
-<li><a href="#map">Карта</a></li>
+<li>
+<a href="#about">
+               Жоба туралы
+</a>
+</li>
+<li>
+<a href="#places">
+               Тарихи орындар
+</a>
+</li>
+<li>
+<a href="#map-section">
+               Карта
+</a>
+</li>
 </ul>
 </nav>
 
-<!-- HERO -->
+<!-- =========================
+    БАС БЕТ
+========================= -->
 <header class="hero">
 <div class="hero-content">
-<h1>Цифрлық Торғай</h1>
-<h2>Тарихты таны. Мұраны сақта.</h2>
+<h1>
+           Цифрлық Торғай
+</h1>
+<h2>
+           Тарихты таны. Мұраны сақта.
+</h2>
 <p>
            Торғай өңірінің тарихи-мәдени мұрасын
-           цифрлық кеңістікте таныстыратын интерактивті жоба.
+           цифрлық кеңістікте таныстыратын
+           интерактивті жоба.
 </p>
-<a href="#places" class="button">
+<a
+           href="#places"
+           class="button"
+>
            Зерттеуді бастау
 </a>
 </div>
 </header>
 
-<!-- ABOUT -->
+<!-- =========================
+    ЖОБА ТУРАЛЫ
+========================= -->
 <section id="about">
 <div class="section-title">
-<h2>Жоба туралы</h2>
-<p>Торғай тарихын жаңа форматта таныту</p>
+<h2>
+           Жоба туралы
+</h2>
+<p>
+           Торғай тарихын жаңа форматта таныту
+</p>
 </div>
+
 <div class="about">
 <p>
-           «Цифрлық Торғай» — Торғай өңірінің тарихи және
-           мәдени мұрасын заманауи цифрлық технологиялар арқылы
+           «Цифрлық Торғай» — Торғай өңірінің
+           тарихи және мәдени мұрасын заманауи
+           цифрлық технологиялар арқылы
            таныстыруға бағытталған жоба.
 </p>
 <br>
 <p>
-           Жоба барысында тарихи орындар, музейлер,
-           көрнекті тұлғалар және олардың мұрасы туралы
-           ақпарат бір цифрлық кеңістікте жинақталады.
+           Жоба барысында тарихи орындар,
+           музейлер, көрнекті тұлғалар және
+           олардың мұрасы бір цифрлық
+           кеңістікте жинақталады.
 </p>
 </div>
 </section>
 
-<!-- HISTORICAL PLACES -->
-<section id="places" class="places">
+<!-- =========================
+    ТАРИХИ ОРЫНДАР
+========================= -->
+<section
+   id="places"
+   class="places"
+>
 <div class="section-title">
-<h2>Тарихи орындар</h2>
+<h2>
+           Тарихи орындар
+</h2>
 <p>
            Торғайдың тарихи мұрасымен танысыңыз
 </p>
@@ -270,11 +349,13 @@
 
 <div class="cards">
 
-<!-- ZHANIBEK -->
+<!-- ЖӘНІБЕК -->
 <div class="card">
-<div class="card-icon">🏛️</div>
+<div class="card-icon">
+               🏛️
+</div>
 <h3>
-               Жәнібек Шақшақұлы музейі
+               Шақшақ Жәнібек музейі
 </h3>
 <p>
                Торғай тарихындағы маңызды тұлғаға
@@ -282,34 +363,41 @@
 </p>
 </div>
 
-<!-- AHMET + MIRZHakyp -->
+<!-- АХМЕТ + МІРЖАҚЫП -->
 <div class="card">
-<div class="card-icon">📚</div>
+<div class="card-icon">
+               📚
+</div>
 <h3>
                Ахмет Байтұрсынұлы және
-               Міржақып Дулатұлы музейлері
+               Міржақып Дулатұлы музейі
 </h3>
 <p>
-               Екі ұлт зиялысының өмірі,
-               шығармашылығы және тарихи мұрасы.
+               Қазақтың көрнекті зиялыларының
+               өмірі, шығармашылығы және
+               тарихи мұрасы.
 </p>
 </div>
 
-<!-- YBYRAI -->
+<!-- ЫБЫРАЙ -->
 <div class="card">
-<div class="card-icon">📖</div>
+<div class="card-icon">
+               📖
+</div>
 <h3>
                Ыбырай Алтынсарин музейі
 </h3>
 <p>
                Ұлы ағартушының өмірі мен
-               білім беру саласындағы еңбегі.
+               педагогикалық мұрасына арналған музей.
 </p>
 </div>
 
-<!-- ALIBI -->
+<!-- ӘЛІБИ -->
 <div class="card">
-<div class="card-icon">🏺</div>
+<div class="card-icon">
+               🏺
+</div>
 <h3>
                Әліби Жангелдин музейі
 </h3>
@@ -318,29 +406,37 @@
                тарихи қызметіне арналған музей.
 </p>
 </div>
+
 </div>
 </section>
 
-<!-- MAP -->
-<section id="map" class="map-section">
+<!-- =========================
+    КАРТА
+========================= -->
+<section
+   id="map-section"
+   class="map-section"
+>
 <div class="section-title">
-<h2>Интерактивті карта</h2>
+<h2>
+           Интерактивті карта
+</h2>
 <p>
            Торғайдың тарихи орындарын картадан зерттеңіз
 </p>
 </div>
-<div class="map-box">
-<span>🗺️</span>
-<p>
-           Интерактивті карта жақында қосылады
-</p>
-</div>
+
+<div id="map"></div>
 </section>
 
-<!-- FOOTER -->
+<!-- =========================
+    ФУТЕР
+========================= -->
 <footer>
 <p>
-<strong>Цифрлық Торғай</strong>
+<strong>
+           Цифрлық Торғай
+</strong>
 </p>
 <p>
        Торғай өңірінің тарихи-мәдени мұрасы
@@ -349,6 +445,109 @@
        Авторлық цифрлық жоба • 2026
 </p>
 </footer>
+
+<!-- =========================
+    LEAFLET
+========================= -->
+<script
+   src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+<script>
+   /*
+       Торғай картасы
+   */
+   const map = L.map('map').setView(
+       [49.6335, 63.4895],
+       15
+   );
+
+   /*
+       OpenStreetMap картасы
+   */
+   L.tileLayer(
+       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+       {
+           attribution:
+               '&copy; OpenStreetMap contributors'
+       }
+   ).addTo(map);
+
+   /*
+       1. ШАҚШАҚ ЖӘНІБЕК
+   */
+   L.marker([
+       49.633999,
+       63.489694
+   ])
+   .addTo(map)
+   .bindPopup(`
+<h3>
+           Шақшақ Жәнібек музейі
+</h3>
+<p>
+           Торғай өңірінің тарихи мұрасын
+           таныстыратын музей.
+</p>
+   `);
+
+   /*
+       2. АХМЕТ + МІРЖАҚЫП
+   */
+   L.marker([
+       49.632444,
+       63.489503
+   ])
+   .addTo(map)
+   .bindPopup(`
+<h3>
+           Ахмет Байтұрсынұлы және
+           Міржақып Дулатұлы музейі
+</h3>
+<p>
+           Қазақтың көрнекті зиялыларының
+           өмірі мен мұрасына арналған
+           әдеби музей.
+</p>
+   `);
+
+   /*
+       3. ЫБЫРАЙ АЛТЫНСАРИН
+   */
+   L.marker([
+       49.633861,
+       63.487444
+   ])
+   .addTo(map)
+   .bindPopup(`
+<h3>
+           Ыбырай Алтынсарин музейі
+</h3>
+<p>
+           Ұлы ағартушының өмірі мен
+           педагогикалық мұрасына арналған музей.
+</p>
+   `);
+
+   /*
+       4. ӘЛІБИ ЖАНГЕЛДИН
+   */
+   L.marker([
+       49.634389,
+       63.490056
+   ])
+   .addTo(map)
+   .bindPopup(`
+<h3>
+           Әліби Жангелдин музейі
+</h3>
+<p>
+           Әліби Жангелдиннің өмірі мен
+           тарихи қызметіне арналған
+           тарихи-мемориалдық музей.
+</p>
+   `);
+</script>
 
 </body>
 </html>
