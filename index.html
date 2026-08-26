@@ -328,9 +328,7 @@ section{
 .exhibit-content h3{
    margin-bottom:10px;
 }
-/* ================================
-  ТҰЛҒАЛАР — ЖАҢА ДИЗАЙН
-================================ */
+/* ТҰЛҒАЛАР */
 .people{
    display:grid;
    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -362,10 +360,7 @@ section{
    color:#514a42;
    line-height:1.7;
 }
-
-/* ================================
-  КАРТА
-================================ */
+/* КАРТА */
 #map{
    width:100%;
    height:520px;
@@ -383,11 +378,12 @@ section{
 }
 .map-popup{
    font-family:Georgia,"Times New Roman",serif;
-   min-width:260px;
+   min-width:250px;
 }
 .map-popup h3{
    color:#5f4827;
    margin-bottom:10px;
+   font-size:18px;
 }
 .map-popup p{
    color:#514b43;
@@ -398,14 +394,21 @@ section{
    font-weight:bold;
    text-decoration:none;
 }
+.map-popup a:hover{
+   text-decoration:underline;
+}
 .map-museum{
    border-top:1px solid #ddd2c1;
-   padding:9px 0;
+   padding:10px 0;
 }
-
-/* ================================
-  IMPACT
-================================ */
+.map-museum strong{
+   color:#40382f;
+}
+.map-coordinates{
+   font-size:12px;
+   color:#8a8175;
+}
+/* IMPACT */
 .impact{
    background:#ded1bd;
 }
@@ -776,21 +779,21 @@ XVIII ғасырдағы батыр,
 </section>
 
 <!-- ================================
-    MAP
+    ИНТЕРАКТИВТІ КАРТА
 ================================ -->
 <section id="map-section">
 <div class="section-title">
 <h2>🗺️ Торғайдың интерактивті картасы</h2>
 <p>
-Торғайдағы музейлер кешенін картадан зерттеңіз
+Торғайдың тарихи музейлерін картадан зерттеңіз
 </p>
 </div>
 <div class="container">
 <div id="map"></div>
 <p class="map-note">
-📍 Картадағы нүкте — Торғайдың Жангелдин
-мұражайлар кешенінің орналасқан жері.
-Кешен құрамына төрт музей кіреді.
+📍 Картада Торғайдың төрт тарихи музейі
+жеке нүктелермен көрсетілген. Нүктені
+басып, музей туралы ақпаратқа өтуге болады.
 </p>
 </div>
 </section>
@@ -1305,74 +1308,124 @@ target="_blank">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 /* ==========================================
-  ТОРҒАЙДЫҢ ЖАНГЕЛДИН МҰРАЖАЙЛАР КЕШЕНІ
-  Нақты орналасу нүктесі
+  ТОРҒАЙДЫҢ 4 МУЗЕЙІ
+  КООРДИНАТТАР
 ========================================== */
-const torgai = [49.632447, 63.491837];
-const map = L.map("map", {
-   zoomControl:true,
-   scrollWheelZoom:true
-}).setView(torgai, 15);
+const museums = [
+   {
+       name: "Әліби Жангелдин тарихи-мемориалды музейі",
+       icon: "🧭",
+       coordinates: [49.6344, 63.4900],
+       link: "#zhangeldin",
+       description:
+       "Саяхатшы, қоғам қайраткері Әліби Жангелдиннің өмірі мен Торғай тарихын таныстыратын музей."
+   },
+   {
+       name: "Ыбырай Алтынсарин мемориалды-педагогикалық музейі",
+       icon: "📖",
+       coordinates: [49.6339, 63.4874],
+       link: "#ybyrai",
+       description:
+       "Ұлы ағартушы Ыбырай Алтынсариннің өмірі, педагогикалық қызметі және білім беру мұрасына арналған музей."
+   },
+   {
+       name: "Ахмет Байтұрсынұлы + Міржақып Дулатұлының әдеби музейі",
+       icon: "📚",
+       coordinates: [49.6305, 63.4922],
+       link: "#alash",
+       description:
+       "Ахмет Байтұрсынұлы мен Міржақып Дулатұлының өмірі, шығармашылығы және Алаш мұрасын таныстыратын әдеби музей."
+   },
+   {
+       name: "Шақшақ Жәнібек тарихи музейі",
+       icon: "🏹",
+       coordinates: [49.6323, 63.4913],
+       link: "#zhanibek",
+       description:
+       "Шақшақ Жәнібектің өмірі мен тарихи қызметіне арналған музей."
+   }
+];
 
-/* OpenStreetMap — тегін */
+/* ==========================================
+  КАРТАНЫ ҚҰРУ
+========================================== */
+const map = L.map("map", {
+   zoomControl: true,
+   scrollWheelZoom: true
+});
+
+/* OpenStreetMap */
 L.tileLayer(
    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
    {
-       maxZoom:19,
-       attribution:"&copy; OpenStreetMap contributors"
+       maxZoom: 19,
+       attribution: "&copy; OpenStreetMap contributors"
    }
 ).addTo(map);
 
-/* Негізгі маркер */
-const mainMarker = L.marker(torgai)
-   .addTo(map);
+/* ==========================================
+  4 МУЗЕЙДІ КАРТАҒА ҚОСУ
+========================================== */
+const markers = [];
 
-/* Popup ішінде барлық 4 музей */
-mainMarker.bindPopup(`
+museums.forEach(function(museum){
+   const marker = L.marker(museum.coordinates)
+       .addTo(map);
+   marker.bindPopup(`
 <div class="map-popup">
-<h3>🏛️ Торғайдың Жангелдин мұражайлар кешені</h3>
+<h3>
+               ${museum.icon} ${museum.name}
+</h3>
 <p>
-📍 Торғай ауылы<br>
-Алтынсарин көшесі, 14
+               ${museum.description}
 </p>
-<p>
-Кешен құрамына 4 музей кіреді:
-</p>
-<div class="map-museum">
-🧭 <strong>Әліби Жангелдин музейі</strong><br>
-<a href="#zhangeldin">Музейге өту →</a>
+<div class="map-coordinates">
+               📍 ${museum.coordinates[0]},
+               ${museum.coordinates[1]}
 </div>
 <div class="map-museum">
-📖 <strong>Ыбырай Алтынсарин музейі</strong><br>
-<a href="#ybyrai">Музейге өту →</a>
-</div>
-<div class="map-museum">
-📚 <strong>Ахмет Байтұрсынұлы мен
-Міржақып Дулатұлы музейі</strong><br>
-<a href="#alash">Музейге өту →</a>
-</div>
-<div class="map-museum">
-🏹 <strong>Шақшақ Жәнібек музейі</strong><br>
-<a href="#zhanibek">Музейге өту →</a>
+<a href="${museum.link}">
+                   Толығырақ ақпарат →
+</a>
 </div>
 </div>
-`);
+   `);
+   markers.push(marker);
+});
 
-/* Аумағын көрсету */
-L.circle(torgai,{
-   radius:150,
-   color:"#a57734",
-   fillColor:"#dfbb72",
-   fillOpacity:0.18,
-   weight:2
-}).addTo(map);
+/* ==========================================
+  КАРТА АУМАҒЫН 4 НҮКТЕГЕ СӘЙКЕСТЕНДІРУ
+========================================== */
+const group = L.featureGroup(markers);
+map.fitBounds(
+   group.getBounds().pad(0.35)
+);
 
-/* Карта толық жүктелгеннен кейін өлшемін жаңарту */
+/* ==========================================
+  ЖАЛПЫ АУМАҚТЫ КӨРСЕТЕТІН ШЕҢБЕР
+========================================== */
+L.circle(
+   [49.6328, 63.4902],
+   {
+       radius: 300,
+       color: "#a57734",
+       fillColor: "#dfbb72",
+       fillOpacity: 0.12,
+       weight: 2
+   }
+).addTo(map);
+
+/* ==========================================
+  КАРТА ЖҮКТЕЛГЕННЕН КЕЙІН ӨЛШЕМІН ЖАҢАРТУ
+========================================== */
 setTimeout(function(){
    map.invalidateSize();
+   map.fitBounds(
+       group.getBounds().pad(0.35)
+   );
 },1000);
 
-/* Тағы бір рет экран өзгерген кезде */
+/* Экран өлшемі өзгерген кезде */
 window.addEventListener("resize",function(){
    setTimeout(function(){
        map.invalidateSize();
@@ -1383,34 +1436,37 @@ window.addEventListener("resize",function(){
   QUIZ
 ========================================== */
 function checkQuiz(){
-   let score=0;
-   const q1=document.querySelector(
+   let score = 0;
+   const q1 = document.querySelector(
        'input[name="q1"]:checked'
    );
-   const q2=document.querySelector(
+   const q2 = document.querySelector(
        'input[name="q2"]:checked'
    );
-   const q3=document.querySelector(
+   const q3 = document.querySelector(
        'input[name="q3"]:checked'
    );
-   if(q1 && q1.value==="2"){
+   if(q1 && q1.value === "2"){
        score++;
    }
-   if(q2 && q2.value==="2"){
+   if(q2 && q2.value === "2"){
        score++;
    }
-   if(q3 && q3.value==="1"){
+   if(q3 && q3.value === "1"){
        score++;
    }
-   const result=document.getElementById("result");
-   if(score===3){
-       result.innerHTML=
+   const result = document.getElementById("result");
+
+   if(score === 3){
+       result.innerHTML =
        "🎉 Керемет! 3/3 — Торғай тарихын жақсы білесіз!";
-   }else if(score===2){
-       result.innerHTML=
+   }
+   else if(score === 2){
+       result.innerHTML =
        "👏 Жақсы нәтиже! 2/3 — тағы біраз зерттеп көріңіз.";
-   }else{
-       result.innerHTML=
+   }
+   else{
+       result.innerHTML =
        "📚 0–1/3. Музейлер туралы ақпаратты қайта қарап көріңіз!";
    }
 }
