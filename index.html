@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Цифрлық Торғай | Тарих. Тұлға. Мұра.</title>
-<!-- Leaflet — тегін интерактивті карта -->
 <link
 rel="stylesheet"
 href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -329,30 +328,51 @@ section{
 .exhibit-content h3{
    margin-bottom:10px;
 }
+/* ================================
+  ТҰЛҒАЛАР — ЖАҢА ДИЗАЙН
+================================ */
 .people{
    display:grid;
    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-   gap:20px;
+   gap:22px;
 }
 .person{
-   background:rgba(255,255,255,.05);
-   border:1px solid rgba(255,255,255,.15);
-   padding:25px;
-   border-radius:15px;
+   background:#fffdf8;
+   color:#2d2923;
+   border:1px solid #e0d5c4;
+   padding:28px;
+   border-radius:17px;
+   box-shadow:0 8px 25px rgba(0,0,0,.12);
+   transition:.3s;
+}
+.person:hover{
+   transform:translateY(-6px);
+   box-shadow:0 12px 30px rgba(0,0,0,.17);
 }
 .person-icon{
    font-size:40px;
-   margin-bottom:10px;
+   margin-bottom:12px;
 }
 .person h3{
-   color:#dfbb72;
+   color:#63491f;
+   font-size:22px;
+   margin-bottom:10px;
 }
+.person p{
+   color:#514a42;
+   line-height:1.7;
+}
+
+/* ================================
+  КАРТА
+================================ */
 #map{
    width:100%;
    height:520px;
    border-radius:20px;
    overflow:hidden;
    box-shadow:0 8px 25px rgba(0,0,0,.12);
+   border:2px solid #d6c8b3;
 }
 .map-note{
    max-width:850px;
@@ -361,6 +381,31 @@ section{
    color:#6e665b;
    font-size:14px;
 }
+.map-popup{
+   font-family:Georgia,"Times New Roman",serif;
+   min-width:260px;
+}
+.map-popup h3{
+   color:#5f4827;
+   margin-bottom:10px;
+}
+.map-popup p{
+   color:#514b43;
+   margin-bottom:10px;
+}
+.map-popup a{
+   color:#8d652e;
+   font-weight:bold;
+   text-decoration:none;
+}
+.map-museum{
+   border-top:1px solid #ddd2c1;
+   padding:9px 0;
+}
+
+/* ================================
+  IMPACT
+================================ */
 .impact{
    background:#ded1bd;
 }
@@ -454,15 +499,15 @@ footer{
        gap:5px;
    }
    #map{
-       height:400px;
+       height:430px;
+   }
+   .map-popup{
+       min-width:220px;
    }
 }
 </style>
 </head>
-
 <body>
-
-<!-- NAVIGATION -->
 <nav>
 <div class="logo">
 Цифрлық Торғай
@@ -476,7 +521,6 @@ footer{
 </ul>
 </nav>
 
-<!-- HERO -->
 <header class="hero">
 <div class="hero-content">
 <div class="hero-label">
@@ -496,7 +540,6 @@ footer{
 </div>
 </header>
 
-<!-- ABOUT -->
 <section id="about">
 <div class="section-title">
 <h2>Жоба туралы</h2>
@@ -549,7 +592,6 @@ footer{
 </div>
 </section>
 
-<!-- RESEARCH -->
 <section class="dark">
 <div class="section-title">
 <h2>Зерттеу бағыты</h2>
@@ -593,7 +635,6 @@ footer{
 </div>
 </section>
 
-<!-- HISTORY -->
 <section id="history">
 <div class="section-title">
 <h2>Торғай тарихының белестері</h2>
@@ -617,9 +658,7 @@ footer{
 <p>
 1864 жылғы 8 қаңтарда Ыбырай Алтынсарин
 Торғайда қазақ балаларына арналған
-мектеп ашты. Бұл қазақ даласындағы
-ағартушылық тарихтың маңызды кезеңдерінің
-бірі болды.
+мектеп ашты.
 </p>
 </div>
 </div>
@@ -686,7 +725,6 @@ footer{
 </div>
 </section>
 
-<!-- MUSEUMS -->
 <section id="museums" class="museum-section">
 <div class="section-title">
 <h2>Торғайдың 4 музейі</h2>
@@ -695,98 +733,72 @@ footer{
 </p>
 </div>
 <div class="container museum-grid">
-
 <div class="museum-card">
 <div class="museum-icon">🧭</div>
-<h3>
-Әліби Жангелдин тарихи-мемориалды музейі
-</h3>
+<h3>Әліби Жангелдин тарихи-мемориалды музейі</h3>
 <p>
 Саяхатшы, қоғам қайраткері
 Әліби Жангелдиннің өмірі мен
 Торғай тарихын таныстырады.
 </p>
-<a href="#zhangeldin">
-Толығырақ →
-</a>
+<a href="#zhangeldin">Толығырақ →</a>
 </div>
-
 <div class="museum-card">
 <div class="museum-icon">📖</div>
-<h3>
-Ыбырай Алтынсарин
-мемориалды-педагогикалық музейі
-</h3>
+<h3>Ыбырай Алтынсарин мемориалды-педагогикалық музейі</h3>
 <p>
 Ұлы ағартушының өмірі,
 педагогикалық қызметі және
 білім беру мұрасы.
 </p>
-<a href="#ybyrai">
-Толығырақ →
-</a>
+<a href="#ybyrai">Толығырақ →</a>
 </div>
-
 <div class="museum-card">
 <div class="museum-icon">📚</div>
-<h3>
-Ахмет Байтұрсынұлы мен
-Міржақып Дулатұлының әдеби музейі
-</h3>
+<h3>Ахмет Байтұрсынұлы мен Міржақып Дулатұлының әдеби музейі</h3>
 <p>
 Алаш қайраткерлерінің өмірі,
 шығармашылығы және ұлттық мұрасы.
 </p>
-<a href="#alash">
-Толығырақ →
-</a>
+<a href="#alash">Толығырақ →</a>
 </div>
-
 <div class="museum-card">
 <div class="museum-icon">🏹</div>
-<h3>
-Шақшақ Жәнібек тарихи музейі
-</h3>
+<h3>Шақшақ Жәнібек тарихи музейі</h3>
 <p>
 XVIII ғасырдағы батыр,
 би және мәмілегер Шақшақ Жәнібекке
 арналған музей.
 </p>
-<a href="#zhanibek">
-Толығырақ →
-</a>
+<a href="#zhanibek">Толығырақ →</a>
 </div>
-
 </div>
 </section>
 
-<!-- MAP -->
+<!-- ================================
+    MAP
+================================ -->
 <section id="map-section">
 <div class="section-title">
 <h2>🗺️ Торғайдың интерактивті картасы</h2>
 <p>
-Торғайдағы музейлерді картадан зерттеңіз
+Торғайдағы музейлер кешенін картадан зерттеңіз
 </p>
 </div>
 <div class="container">
 <div id="map"></div>
 <p class="map-note">
-Картадағы нүктелер музейлер кешенінің
-Торғайдағы орналасуын көрсетеді.
-Нақты жеке ғимарат координаттары
-ресми деректе бөлек көрсетілмеген жағдайда,
-картада кешеннің орналасу нүктесі пайдаланылады.
+📍 Картадағы нүкте — Торғайдың Жангелдин
+мұражайлар кешенінің орналасқан жері.
+Кешен құрамына төрт музей кіреді.
 </p>
 </div>
 </section>
 
-<!-- ZHANGELDIN -->
 <section id="zhangeldin" class="museum-section">
 <div class="museum-detail">
 <div class="museum-heading">
-<h2>
-Әліби Жангелдин тарихи-мемориалды музейі
-</h2>
+<h2>Әліби Жангелдин тарихи-мемориалды музейі</h2>
 <p>Саяхатшы • Қоғам қайраткері • Тарихи тұлға</p>
 </div>
 <div class="info-box">
@@ -801,11 +813,10 @@ XVIII ғасырдағы батыр,
 <div class="info-box">
 <h3>Экспозициялары</h3>
 <p>
-Музейде 1910–1912 жылдардағы саяхат,
-балалық шағы, этнография, 1916 жылғы
-ұлт-азаттық көтеріліс, «Қызыл керуен»
-және Торғайдың кешегі мен бүгінгі тарихына
-арналған залдар бар.
+Музейде Әліби Жангелдиннің саяхатына,
+өміріне, 1916 жылғы ұлт-азаттық
+көтеріліске және Торғай өңірінің
+тарихына арналған материалдар бар.
 </p>
 </div>
 <h3 style="margin:30px 0 18px;">
@@ -815,7 +826,7 @@ XVIII ғасырдағы батыр,
 <div class="photo-placeholder">
 Бұл жерге кейін<br>
 zhangeldin-1.jpg<br>
-фотосы автоматты түрде шығады
+фотосы қосылады
 </div>
 <div class="photo-placeholder">
 zhangeldin-2.jpg<br>
@@ -829,14 +840,10 @@ zhangeldin-3.jpg<br>
 </div>
 </section>
 
-<!-- YBYRAI -->
 <section id="ybyrai">
 <div class="museum-detail">
 <div class="museum-heading">
-<h2>
-Ыбырай Алтынсарин
-мемориалды-педагогикалық музейі
-</h2>
+<h2>Ыбырай Алтынсарин мемориалды-педагогикалық музейі</h2>
 <p>Ұстаз • Ағартушы • Педагог</p>
 </div>
 <div class="info-box">
@@ -854,7 +861,7 @@ zhangeldin-3.jpg<br>
 <p>
 1864 жылғы 8 қаңтарда Ыбырай Алтынсарин
 Торғайда қазақ балаларына арналған
-мектеп ашты. Бұл оқиға қазақ
+мектеп ашты. Бұл қазақ
 ағартушылығының дамуындағы маңызды
 кезең болды.
 </p>
@@ -865,7 +872,7 @@ zhangeldin-3.jpg<br>
 <div class="gallery">
 <div class="photo-placeholder">
 ybyrai-1.jpg<br>
-Музейдің сыртқы көрінісі
+Музей
 </div>
 <div class="photo-placeholder">
 ybyrai-2.jpg<br>
@@ -879,14 +886,10 @@ ybyrai-3.jpg<br>
 </div>
 </section>
 
-<!-- ALASH -->
 <section id="alash" class="museum-section">
 <div class="museum-detail">
 <div class="museum-heading">
-<h2>
-Ахмет Байтұрсынұлы мен
-Міржақып Дулатұлының әдеби музейі
-</h2>
+<h2>Ахмет Байтұрсынұлы мен Міржақып Дулатұлының әдеби музейі</h2>
 <p>Алаш • Әдебиет • Ұлттық сана</p>
 </div>
 <div class="info-box">
@@ -901,25 +904,20 @@ ybyrai-3.jpg<br>
 <div class="info-box">
 <h3>Экспозиция</h3>
 <p>
-Музейде Ахмет Байтұрсынұлының
-өмірі мен шығармашылығына,
-Міржақып Дулатұлының өмірі мен
-шығармашылығына, Алаш қозғалысына,
-сондай-ақ Торғайдан шыққан тұлғаларға
-арналған материалдар бар.
+Музейде екі тұлғаның өмірі мен
+шығармашылығына, Алаш қозғалысына
+және Торғайдан шыққан тұлғаларға
+арналған тарихи материалдар бар.
 </p>
 </div>
 <div class="info-box">
 <h3>🏺 «Бір жәдігер — бір тарих»</h3>
 <p>
-Музей кешенінің ресми сайтында
-Шақшақ Жәнібек тарханның мөрі мен
-жарлығы, Міржақып Дулатұлының
-портфелі мен тақиясы, Ахмет
-Байтұрсынұлының шоқ үтігі,
-патефоны, «Маса» және «Қырық мысал»
-кітаптары сияқты жәдігерлердің
-тарихы ұсынылған.
+Музей қорында Ахмет Байтұрсынұлының
+«Маса» және «Қырық мысал» кітаптары,
+патефоны, шоқ үтігі, сондай-ақ
+Міржақып Дулатұлының жеке заттары
+сияқты құнды жәдігерлер сақталған.
 </p>
 </div>
 <h3 style="margin:30px 0 18px;">
@@ -946,23 +944,19 @@ alash-4.jpg<br>
 </div>
 </section>
 
-<!-- ZHANIBEK -->
 <section id="zhanibek">
 <div class="museum-detail">
 <div class="museum-heading">
-<h2>
-Шақшақ Жәнібек тарихи музейі
-</h2>
+<h2>Шақшақ Жәнібек тарихи музейі</h2>
 <p>Батыр • Би • Мәмілегер</p>
 </div>
 <div class="info-box">
 <h3>Музей туралы</h3>
 <p>
 Шақшақ Жәнібек тарихи музейі
-1993 жылы ашылған.
-Музей XVIII ғасырдағы тарихи тұлға
-Шақшақ Жәнібектің өмірі мен
-қызметіне арналған.
+халықтың қаржысымен салынып,
+Жәнібек бабамыздың 300 жылдық
+мерейтойына байланысты ашылған.
 </p>
 </div>
 <div class="info-box">
@@ -970,9 +964,8 @@ alash-4.jpg<br>
 <p>
 Музейде Шақшақ Жәнібектің өмірі мен
 тарихи қызметіне арналған материалдар,
-1729 жылғы Аңырақай шайқасына арналған
-диорама және XVIII ғасырдағы жауынгерлердің
-қару-жарақтары көрсетіледі.
+сондай-ақ қазақ тарихына қатысты
+экспозициялар көрсетіледі.
 </p>
 </div>
 <h3 style="margin:30px 0 18px;">
@@ -995,7 +988,6 @@ zhanibek-3.jpg<br>
 </div>
 </section>
 
-<!-- EXHIBITS -->
 <section class="museum-section">
 <div class="section-title">
 <h2>🏺 Жәдігерлер сөйлейді</h2>
@@ -1014,11 +1006,10 @@ zhadiger-1.jpg
 <p>
 Музей қорындағы тарихи жәдігер.
 Толық сипаттамасы дереккөзге
-сүйене отырып кейін толықтырылады.
+сүйене отырып толықтырылады.
 </p>
 </div>
 </div>
-
 <div class="exhibit">
 <div class="exhibit-image">
 📷<br>
@@ -1032,7 +1023,6 @@ zhadiger-2.jpg
 </p>
 </div>
 </div>
-
 <div class="exhibit">
 <div class="exhibit-image">
 📷<br>
@@ -1046,7 +1036,6 @@ zhadiger-3.jpg
 </p>
 </div>
 </div>
-
 <div class="exhibit">
 <div class="exhibit-image">
 📷<br>
@@ -1116,7 +1105,6 @@ XVIII ғасырдағы батыр, би және
 </div>
 </section>
 
-<!-- GALLERY -->
 <section id="gallery">
 <div class="section-title">
 <h2>📸 Торғайды көзбен таныңыз</h2>
@@ -1144,7 +1132,6 @@ general-4.jpg<br>
 </div>
 </section>
 
-<!-- IMPACT -->
 <section class="impact">
 <div class="section-title">
 <h2>❤️ Жобаның әсері</h2>
@@ -1204,7 +1191,6 @@ general-4.jpg<br>
 </div>
 </section>
 
-<!-- QUIZ -->
 <section>
 <div class="section-title">
 <h2>🧠 Өзіңді тексер</h2>
@@ -1212,7 +1198,10 @@ general-4.jpg<br>
 </div>
 <div class="quiz">
 <div class="question">
-<h3>1. Торғайдың Жангелдин мұражайлар кешеніне қанша музей кіреді?</h3>
+<h3>
+1. Торғайдың Жангелдин мұражайлар кешеніне
+қанша музей кіреді?
+</h3>
 <label class="option">
 <input type="radio" name="q1" value="1">
 2
@@ -1226,7 +1215,6 @@ general-4.jpg<br>
 6
 </label>
 </div>
-
 <div class="question">
 <h3>2. Ыбырай Алтынсарин музейі қай жылы ашылды?</h3>
 <label class="option">
@@ -1242,9 +1230,11 @@ general-4.jpg<br>
 1991
 </label>
 </div>
-
 <div class="question">
-<h3>3. Ахмет Байтұрсынұлы мен Міржақып Дулатұлының әдеби музейі қай жылы ашылды?</h3>
+<h3>
+3. Ахмет Байтұрсынұлы мен Міржақып Дулатұлының
+әдеби музейі қай жылы ашылды?
+</h3>
 <label class="option">
 <input type="radio" name="q3" value="1">
 1991
@@ -1258,7 +1248,6 @@ general-4.jpg<br>
 2002
 </label>
 </div>
-
 <button onclick="checkQuiz()">
 Нәтижені көру
 </button>
@@ -1266,7 +1255,6 @@ general-4.jpg<br>
 </div>
 </section>
 
-<!-- SOURCES -->
 <section class="sources">
 <div class="section-title">
 <h2>📚 Дереккөздер</h2>
@@ -1302,7 +1290,6 @@ target="_blank">
 </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
 <div class="footer-title">
 Цифрлық Торғай
@@ -1315,88 +1302,86 @@ target="_blank">
 </p>
 </footer>
 
-<!-- LEAFLET -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-/*
-========================================
-ТОРҒАЙ КАРТАСЫ
-========================================
-Координаты села Торғай:
-49.632447, 63.491837
-Официальный адрес комплекса:
-Ыбырай Алтынсарин көшесі, 14
-*/
-const torgai = [49.632447,63.491837];
-const map = L.map('map').setView(torgai,15);
+/* ==========================================
+  ТОРҒАЙДЫҢ ЖАНГЕЛДИН МҰРАЖАЙЛАР КЕШЕНІ
+  Нақты орналасу нүктесі
+========================================== */
+const torgai = [49.632447, 63.491837];
+const map = L.map("map", {
+   zoomControl:true,
+   scrollWheelZoom:true
+}).setView(torgai, 15);
 
-/* Бесплатная карта OpenStreetMap */
+/* OpenStreetMap — тегін */
 L.tileLayer(
-'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-{
-   attribution:
-   '&copy; OpenStreetMap contributors'
-}
+   "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+   {
+       maxZoom:19,
+       attribution:"&copy; OpenStreetMap contributors"
+   }
 ).addTo(map);
 
-/*
-Все четыре музея комплекса.
-Пока официально доступна общая точка комплекса.
-*/
-const museums = [
-{
-   name:"Әліби Жангелдин тарихи-мемориалды музейі",
-   icon:"🧭",
-   text:"1984 жылы ашылған. Әліби Жангелдиннің өмірі мен қызметіне арналған."
-},
-{
-   name:"Ыбырай Алтынсарин мемориалды-педагогикалық музейі",
-   icon:"📖",
-   text:"1988 жылы ашылған. Ұлы ағартушының өмірі мен педагогикалық мұрасын таныстырады."
-},
-{
-   name:"Ахмет Байтұрсынұлы мен Міржақып Дулатұлының әдеби музейі",
-   icon:"📚",
-   text:"1991 жылы ашылған. Алаш қайраткерлерінің өмірі мен шығармашылығына арналған."
-},
-{
-   name:"Шақшақ Жәнібек тарихи музейі",
-   icon:"🏹",
-   text:"1993 жылы ашылған. XVIII ғасырдағы батыр Шақшақ Жәнібектің тарихын таныстырады."
-}
-];
+/* Негізгі маркер */
+const mainMarker = L.marker(torgai)
+   .addTo(map);
 
-museums.forEach(function(museum){
-   L.marker(torgai)
-   .addTo(map)
-   .bindPopup(
-       "<strong>" +
-       museum.icon +
-       " " +
-       museum.name +
-       "</strong><br><br>" +
-       museum.text
-   );
-});
+/* Popup ішінде барлық 4 музей */
+mainMarker.bindPopup(`
+<div class="map-popup">
+<h3>🏛️ Торғайдың Жангелдин мұражайлар кешені</h3>
+<p>
+📍 Торғай ауылы<br>
+Алтынсарин көшесі, 14
+</p>
+<p>
+Кешен құрамына 4 музей кіреді:
+</p>
+<div class="map-museum">
+🧭 <strong>Әліби Жангелдин музейі</strong><br>
+<a href="#zhangeldin">Музейге өту →</a>
+</div>
+<div class="map-museum">
+📖 <strong>Ыбырай Алтынсарин музейі</strong><br>
+<a href="#ybyrai">Музейге өту →</a>
+</div>
+<div class="map-museum">
+📚 <strong>Ахмет Байтұрсынұлы мен
+Міржақып Дулатұлы музейі</strong><br>
+<a href="#alash">Музейге өту →</a>
+</div>
+<div class="map-museum">
+🏹 <strong>Шақшақ Жәнібек музейі</strong><br>
+<a href="#zhanibek">Музейге өту →</a>
+</div>
+</div>
+`);
 
-/* Центральная точка */
+/* Аумағын көрсету */
 L.circle(torgai,{
-   radius:120,
+   radius:150,
    color:"#a57734",
    fillColor:"#dfbb72",
-   fillOpacity:.15
-}).addTo(map)
-.bindPopup(
-   "<strong>📍 Торғай</strong><br>" +
-   "Торғайдың Жангелдин мұражайлар кешені"
-);
+   fillOpacity:0.18,
+   weight:2
+}).addTo(map);
 
-/* Увеличиваем карту после загрузки */
+/* Карта толық жүктелгеннен кейін өлшемін жаңарту */
 setTimeout(function(){
    map.invalidateSize();
-},500);
+},1000);
 
-/* TEST */
+/* Тағы бір рет экран өзгерген кезде */
+window.addEventListener("resize",function(){
+   setTimeout(function(){
+       map.invalidateSize();
+   },200);
+});
+
+/* ==========================================
+  QUIZ
+========================================== */
 function checkQuiz(){
    let score=0;
    const q1=document.querySelector(
@@ -1421,12 +1406,10 @@ function checkQuiz(){
    if(score===3){
        result.innerHTML=
        "🎉 Керемет! 3/3 — Торғай тарихын жақсы білесіз!";
-   }
-   else if(score===2){
+   }else if(score===2){
        result.innerHTML=
        "👏 Жақсы нәтиже! 2/3 — тағы біраз зерттеп көріңіз.";
-   }
-   else{
+   }else{
        result.innerHTML=
        "📚 0–1/3. Музейлер туралы ақпаратты қайта қарап көріңіз!";
    }
@@ -1435,3 +1418,4 @@ function checkQuiz(){
 </body>
 </html>
 доступно контекстное меню
+
